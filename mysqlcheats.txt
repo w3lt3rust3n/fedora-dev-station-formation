@@ -1,0 +1,89 @@
+use entreprise;
+CREATE table employes(
+id_employes int(3) NOT null AUTO_INCREMENT,
+    prenom varchar(45) default null,
+    nom varchar(45) DEFAULT null,
+    sex ENUM('m', 'f') NOT null, 
+    service varchar(45) DEFAULT null,
+    date_embauche date DEFAULT null,
+    salaire float DEFAULT null,
+    PRIMARY KEY(id_employes)
+    )ENGINE = INNODB;
+
+use entreprise;
+INSERT into employes(id_employes, prenom, nom, sex, service, date_embauche, salaire)VALUES (350, 'jean-pierre', 'laborde', 'm', 'direction', '1999-12-09', 5000), 
+                     (370, 'clement', 'gallet', 'm', 'commercial', '2000-01-15', 2300),
+                     (415, 'thomas', 'winter', 'm', 'commercial', '2000-05-03', 1900),
+                     (491, 'Elodie', 'fellier', 'f', 'production', '2001-09-05', 1600),
+                     (509, 'fabrice', 'Grand', 'm', 'compatibilite', '2003-02-20', 1900),
+                     (547, 'Melanie', 'Collier', 'f', 'commercial', '2004-09-08', 3100),
+                     (666, 'Gislaine', 'Sofitel', 'f', 'technicienne de surface', '1964-12-25', 1550);
+
+        
+______________________________________________________________________________________________________________________________________________________________________________
+
+select nom, prenom, service from employes where service != 'commercial' or service != 'production' 
+OU
+SELECT * FROM employes WHERE service NOT IN('commercial', 'production');
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+SELECT * FROM employes where service='commercial' AND salaire < 2000;
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+select * from employes where service='production' AND salaire = '1900' OR salaire = '2300';
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+SELECT service, COUNT(id_employes) FROM employes GROUP by service;
+SELECT service, count(id_employes) as number from employes group by service having number > 1;
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+INSERT INTO employes(id_employes, nom, service, prenom) VALUES(441, 'tot', 'production', 'nina');
+
+-- Si on ne connait pas les champs mais qu'on connait l'ordre --
+INSERT INTO employes(id_employes, nom, service, prenom) VALUES(441, 'tot', 'production', 'nina');
+OU
+INSERT INTO employes(id_employes, nom) VALUES(4745, "load");
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+UPDATE employes set date_embauche = null WHERE id_employes=411 and id_employes=144;
+
+-- Pour changer un élément particulier (ici 411) 
+
+UPDATE employes SET salaire = 500, date_embauche = '2021-03-23' WHERE id_employes = 411;
+
+______________________________________________________________________________________________________________________________________________________________________________
+-- remove user by name
+delete from employes where nom = 'nina';
+
+DELETE from employes when service = 'commercial' and id_employes != 415;
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+-- Table virtuelle (sous table)
+CREATE VIEW vue_femme as SELECT nom, prenom, sex FROM employes where sex='f';
+
+-- l'abonné de l'id est venu emprunter le livre à quelle date ?
+
+select date_sortie from emprunt where id_abonne = 2;
+
+-- COmbien de livres ont été empruntés ?:
+SELECT count(id_emprunt) FROM emprunt
+
+-- Combien de livres sont sorties le 11-12-2019 ?
+SELECT COUNT(id_emprunt) FROM emprunt WHERE date_sortie='2011-12-19';
+
+-- Qui est l'auteir d'une vie ?
+SELECT auteur from livre WHERE titre='Une vie';
+
+SELECT auteur from livre WHERE titre='Une vie';
+
+-- Combien de livre d'Alexandre Dumas dispose-t-on ? 
+SELECT COUNT(id_livre) FROM livre WHERE auteur = 'alexandre dumas';
+
+-- Quel id_livre est le plus emprunté ?
+SELECT ID_LIVRE, count(date_sortie) FROM emprunt GROUP BY id_livre

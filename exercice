@@ -1,0 +1,46 @@
+-- **************************
+-- Exercice
+-- **************************
+
+-- 1.  Afficher le service de l'employé 547
+
+SELECT * from employes where id_employes = 547 
+CORRIGER: SELECT service from employes where id_employes = 547; (autre possibilité)
+
+-- 2.  Afficher la date d'embauche d'amandine
+
+SELECT * FROM employes where prenom = 'amandine' or prenom = 'Amandine' 
+CORRIGER: SELECT date_embauche from employes where prenom = 'amandine' (pas sensible à la casse / autre possibilité)
+
+-- 3.  Afficher le nbr d'employé du service commercial
+
+SELECT count(id_employes) from employes where service = 'commercial';
+CORRIGER: same as found
+
+-- 4.  Afficher la somme des salaires annuels des commerciaux
+
+select salaire, sum(salaire) from employes (wrong);
+CORRIGER: SELECT SUM(salaire * 12) FROM employes WHERE service = 'commercial'; 
+
+-- 5.  Afficher le salaire moyen par service
+
+SELECT salaire, avg(salaire) from employes (wrong et en plus c'est tous les employés);
+CORRIGER: SELECT AVG(salaire) FROM employes GROUP BY service;
+
+-- 6.  Afficher le nbr de recrutements sur l'année 2010 
+CORRIGER: SELECT COUNT(id_employes) FROM employes WHERE date_embauche BETWEEN '2010-01-01' AND '2010-12-31';
+
+
+-- 7.  Augmenter le salaire de tous les employés de +100
+CORRIGER: UPDATE employes SET salaire += 100;
+
+-- 8.  Afficher le nombre de services différents
+CORRIGER: 
+
+-- 9.  Afficher le nombre d'employés par service
+CORRIGER: SELECT service, COUNT(id_employes) FROM 
+
+-- 10. Afficher toutes les infos de l'employé du service commercial le mieux payé
+SELECT * from employes WHERE service = 'commercial'
+
+-- 11. Afficher l'employé ayant été embauché en dernier
