@@ -1,0 +1,29 @@
+-- Date de sortie et de rendu pour l'abonné Guillaume
+-- emprunt => e table abonne => a
+SELECT e.date_sortie, e.date_rendu, a.prenom -- ce que je souhaite afficher
+FROM abonne a -- La 1ere table d'où viennent les informations
+INNER JOIN emprunt e -- Lier la 1ere table à la seconde table
+ON a.id_abonne = e.id_abonne -- La jointure qui lie les deux champs en commun dans les 2 tables 
+WHERE a.prenom = 'guillaume'; -- condition supplémentaire sur le prénom
+
+----------------------------------------------------------------------------------------------------
+
+-- Afficher les titres, date de sortie et date de rendu des livres écrits par Alphonse Daudet
+SELECT l.titre, e.date_sortie, e.date_rendu
+FROM livre l
+INNER JOIN emprunt e
+ON l.id_livre = e.id_livre
+WHERE l.auteur = "alphonse daudet"
+
+------------------------------------------------------------------------------------------------------
+
+-- Qui (prenom) a emprunté "Une vie" sur 2011 ?
+
+-- Qui (prenom) a emprunté "Une vie" sur 2011 ?
+ SELECT a.prenom FROM abonne a INNER JOIN emprunt ON a.id_abonne = emprunt.id_abonne INNER JOIN livre ON emprunt.id_livre = livre.id_livre WHERE livre.titre = "une vie" AND (emprunt.date_sortie BETWEEN "2011-01-01" AND "2011-12-31")
+
+ -- Le nombre de livres empruntés par chaque abonné (prénom) ? SELECT a.prenom, COUNT(e.id_abonne) FROM abonne a INNER JOIN emprunt e ON a.id_abonne = e.id_abonne GROUP BY e.id_abonne 
+
+ 
+
+

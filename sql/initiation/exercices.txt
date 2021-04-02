@@ -1,0 +1,12 @@
+-- Quel id_abonne a emprunté le plus de livre
+
+SELECT id_abonne FROM emprunt GROUP by id_abonne ORDER by COUNT(date_sortie) DESC LIMIT 0,1
+
+SELECT id_livre FROM emprunt WHERE date_rendu is null;
+
+SELECT titre FROM livre WHERE id_livre in (SELECT id_livre FROM emprunt WHERE date_rendu is null)
+
+
+-- Afficher le numéros des livres que Chloé a emprunté
+
+SELECT id_livre FROM emprunt WHERE id_abonne IN(SELECT id_abonne FROM abonne WHERE prenom = "Chloé") 

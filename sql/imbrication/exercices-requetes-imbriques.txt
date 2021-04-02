@@ -1,0 +1,50 @@
+-- Quel id_abonne a emprunté le plus de livre
+
+SELECT id_abonne FROM emprunt GROUP by id_abonne ORDER by COUNT(date_sortie) DESC LIMIT 0,1
+
+SELECT id_livre FROM emprunt WHERE date_rendu is null;
+
+SELECT titre FROM livre WHERE id_livre in (SELECT id_livre FROM emprunt WHERE date_rendu is null)
+
+
+-- Afficher le numéros des livres que Chloé a emprunté
+
+SELECT id_livre FROM emprunt WHERE id_abonne IN(SELECT id_abonne FROM abonne WHERE prenom = "Chloé") 
+
+_____________ NEW ERISON ___________________________
+-- quel id_abonnes a emprunté le plus de livre
+select id_abonne from emprunt where date_sortie=(select max(date_sortie)from emprunt);
+select id_abonne, count( date_sortie) from emprunt group by id_abonne order by count(date_sortie) desc limit 0,1;
+
+-- recuperer les livres pas rendu 
+select id_livre from emprunt where date_rendu is null;
+-- recuperer les titres des livres pas rendu 
+select titre from livre where id_livre in (select id_livre from emprunt where date_rendu is null);
+
+-- afficher le numero des livres que chloé a emprunté
+select id_livre from emprunt where id_abonne in (select id_abonne from abonne where prenom="Chloe");
+
+--afficher les prenoms des abonnes ayant empruntées un livre le '2011-12-19'
+select prenom from abonne where id_abonne in ( select id_abonne from emprunt where date_sortie='2011-12-19' ) ;
+
+-- afficher les prenoms des abonés ayant emprunté un livre d'alphonse d'audet
+select prenom from abonne where id_abonne in
+(select id_abonne from emprunt where id_livre in
+(select id_livre from livre where auteur='ALPHONSE DAUDET') );
+
+-- afficher le titre des livres que cholé a empruntés
+select titre from livre where id_livre in
+(select id_livre from emprunt where id_abonne =
+(select id_abonne from abonne where prenom='chloe'));
+
+-- Le titre des livres que Chloé n'a pas emprunté
+
+SELECT titre FROM livre where id_livre NOT IN
+(SELECT id_livre FROM emprunt WHERE id_abonne =
+ (SELECT id_abonne FROM abonne WHERE prenom = 'chloe'));
+
+ -- Combien de livres Benoit a emprunté à la bibliothèque 
+SELECT COUNT(id_livre) FROM emprunt WHERE id_abonne in (SELECT id_abonne FROM abonne WHERE prenom = 'benoît');
+
+-- Qui a emprunté le plus de livre à la bibliothèque
+SELECT prenom FROM abonne WHERE id_abonne = (SELECT id_abonne FROM emprunt GROUP BY id_abonne ORDER by COUNT(date_sortie) DESC LIMIT 0, 1) 
